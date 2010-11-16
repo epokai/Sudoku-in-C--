@@ -5,50 +5,110 @@
 
 using namespace std;
 
-//void checkBlock(string);
+void printGame(int arg[][9]);
+bool checkGame(int arg[][9]);
 
 int main()
 {
-	int A = 0, B = 0, C = 0, D = 0, E = 0, F = 0, G = 0, H = 0, I = 0, sum = 0;
-	string sdf = "sudoku.txt";
-	//cout << "Enter the sdf file> " << endl;
-	//cin >> sdf;
+	int line = 0, col = 0, A = 0, B = 0, C = 0, D = 0, E = 0, F = 0, G = 0, H = 0, I = 0;
+	int game[9][9];
+	bool gameFinished = false;
 
-	if (sdf == "")
+	ifstream file;
+	file.open("sudokuFalse.txt");
+	for (line = 0; line < 9; line++)
 	{
-		cout << "end" << endl;
+		file >> A >> B >> C >> D >> E >> F >> G >> H >> I;
+		game[line][0] = A;
+		game[line][1] = B;
+		game[line][2] = C;
+		game[line][3] = D;
+		game[line][4] = E;
+		game[line][5] = F;
+		game[line][6] = G;
+		game[line][7] = H;
+		game[line][8] = I;
 	}
-	else
+
+	printGame(game);
+
+	gameFinished = checkGame(game);
+
+	if (gameFinished == true)
 	{
-		ifstream sdfRead;
-		sdfRead.open("sudoku.txt");
-		for (int line = 1; line < 10; line++)
+		cout << "Game Over, good job!" << endl;
+	}
+	else if (gameFinished == false)
+	{
+		cout << "Something is wrong with your sudoku game." << endl;
+	}
+
+	return 0;
+}
+
+void printGame(int arg[][9])
+{
+	for (int a = 0; a < 9; a++)
+	{
+		for (int b = 0; b < 9; b++)
 		{
-			sdfRead >> A >> B >> C >> D >> E >> F >> G >> H >> I;
-			for (int y = 0; y < 9; y++)
+			cout << arg[a][b] << " ";
+		}
+		cout << endl;
+	}
+}
+
+bool checkGame(int arg[][9])
+{
+	bool checkGame = false, doneCheck = false;
+	int numToCheck = 0, nextCheck = 1;
+	for (int a = 0; a < 9; a++)
+	{
+		for (int b = 0; b < 9; b++)
+		{
+			numToCheck = arg[a][b];
+			while (doneCheck == false)
 			{
-				for (int z = 0; z < 9; z++)
+				int divCheck = numToCheck / nextCheck;
+				int modCheck = numToCheck % nextCheck;
+
+				if ((divCheck == 1) and (modCheck == 0))
 				{
-					game[y][z] = A;
+					doneCheck = true;
+				}
+				else
+				{
+					nextCheck++;
 				}
 			}
+		}
+	}
 
-			sum = A + B + C + D + E + F + G + H + I;
-			cout << sum << endl;
-		}
-		if (sum == 45)
-		{
-			cout << "true" << endl;
-		}
-		sdfRead.close();
-	}
-	int game[9][9];
-	for (int y = 0; y < 9; y++)
+	for (int a = 0; a < 9; a++)
 	{
-		for (int z = 0; z < 9; z++)
+		for (int b = 0; b < 9; b++)
 		{
-			cout << game[y][z] << endl;
+			numToCheck = arg[b][a];
+			while (doneCheck == false)
+			{
+				int divCheck = numToCheck / nextCheck;
+				int modCheck = numToCheck % nextCheck;
+
+				if ((divCheck == 1) and (modCheck == 0))
+				{
+					doneCheck = true;
+				}
+				else
+				{
+					nextCheck++;
+				}
+			}
 		}
 	}
-	return 0;
+
+	if (doneCheck == true)
+	{
+		checkGame = true;
+	}
+	return checkGame;
 }
