@@ -13,12 +13,13 @@ class sudokuGame
 		//string gameToLoad = "sudokuTrue.txt";
 
 	public:
-		// using structures in classes?
-		// we need something like a structure or a recursive element that we can call to see what its status is
-
-		void setOptions()
+		void setOptions() // will be void setOptions(option a, option b, option c, etc...)
 		{
 			cout << "set options" << endl;
+			//variables that can be set by the other functions with in the class
+			//and can then be check in either the main or by the other functions
+			//so that we can have some leg room for later
+			//w00t woo!
 		}
 
 		void printGame()
@@ -124,6 +125,16 @@ class sudokuGame
 			}
 			return true;
 		}
+
+		void changeNum(int x, int a, int b)
+		{
+			game[a][b] = x;
+		}
+
+		bool isValid(int a, int b) // check the recently entered number to see if it is valid.
+		{
+			return false;
+		}
 };
 
 int menu();
@@ -137,7 +148,7 @@ int main()
 		int choice = menu();
 		cout << endl;
 		
-		if (choice == 8)
+		if (choice == 10)
 		{
 			cout << "Good-Bye" << endl;
 			newGame.saveGame();
@@ -146,7 +157,7 @@ int main()
 
 		else if (choice == 1)
 		{
-			cout << endl << "New Game" << endl << endl;
+			cout << endl << "New Game" << endl;
 		}
 		else if (choice == 2)
 		{
@@ -162,7 +173,7 @@ int main()
 		}
 		else if (choice == 4)
 		{
-			cout << endl << "Check Location" << endl << endl;
+			cout << endl << "Check Location" << endl;
 			bool isTrueRow = false, isTrueCol = false;
 			int locX = -1, locY = -1;
 
@@ -212,11 +223,28 @@ int main()
 		}
 		else if (choice == 6)
 		{
-			cout << endl << "Generate Game" << endl << endl;
+			int x = 0, y = 0, num = 0;
+			cout << endl << "edit location" << endl;
+			cout << endl << "Enter the x and y location of the number you want to change:" << endl;
+			cin >> x >> y; // remember to check to see if these coordinates are valid (0-8)(0-8)
+			cout << "Enter the number:" << endl;
+			cin >> num; // remember to check to see if this is a valid # (1-9)
+			newGame.changeNum(num,x - 1,y - 1);
+			// check to see that the number is valid in here.
+			newGame.printGame();
+			
 		}
 		else if (choice == 7)
 		{
-			cout << endl << "Solve Game" << endl << endl;
+			cout << endl << "Generate Game" << endl;
+		}
+		else if (choice == 8)
+		{
+			cout << endl << "Solve Game" << endl;
+		}
+		else if (choice == 9)
+		{
+			cout << endl << "Set Options" << endl;
 		}
 
 	}
@@ -234,14 +262,16 @@ int menu()
 		cout << "3. Print Game" << endl;
 		cout << "4. Check Location" << endl;
 		cout << "5. Check Game" << endl;
-		cout << "#6 Generate Game" << endl;
-		cout << "#7 Solve Game" << endl;
-		cout << "8. Exit" << endl;
+		cout << "6. Edit Location" << endl;
+		cout << "#7 Generate Game" << endl;
+		cout << "#8 Solve Game" << endl;
+		cout << "#9 Set Options" << endl;
+		cout << "10. Exit" << endl;
 		cout << "Enter choice" << endl;
 		cout << "(# denotes unfinished options)" << endl;
 		cin >> userChoice;
 
-		if ((userChoice <= 8) and (userChoice >= 1))
+		if ((userChoice <= 10) and (userChoice >= 1))
 		{
 			return userChoice;
 		}
