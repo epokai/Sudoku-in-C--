@@ -16,6 +16,11 @@ class sudokuGame
 		// using structures in classes?
 		// we need something like a structure or a recursive element that we can call to see what its status is
 
+		void setOptions()
+		{
+			cout << "set options" << endl;
+		}
+
 		void printGame()
 		{
 			for (int a = 0; a < 9; a++)
@@ -37,7 +42,7 @@ class sudokuGame
 		{
 			int A = 0, B = 0, C = 0, D = 0, E = 0, F = 0, G = 0, H = 0, I = 0;			
 			ifstream openingFile;
-			openingFile.open("sudokuFalse.txt"); // openingFile.open(gameToLoad);
+			openingFile.open("sudokuTRUE.txt"); // openingFile.open(gameToLoad);
 			for (int line = 0; line < 9; line++)
 			{
 				openingFile >> A >> B >> C >> D >> E >> F >> G >> H >> I;
@@ -75,7 +80,7 @@ class sudokuGame
 			return 0;
 		}
 
-		bool checkRow(int x, int y) // unchecked
+		bool checkRow(int x, int y)
 		{
 			int number = game[x][y];
 			for (int a = 0; a < 9; a++)
@@ -89,7 +94,7 @@ class sudokuGame
 			return true;
 		}
 
-		bool checkCol(int x, int y) // unchecked
+		bool checkCol(int x, int y)
 		{
 			int number = game[x][y];
 			for (int b = 0; b < 9; b++)
@@ -105,7 +110,19 @@ class sudokuGame
 
 		bool checkGame()
 		{
-			return false;
+			for (int j = 0; j < 9; j++)
+			{
+				for (int k = 0; k < 9; k++)
+				{
+					bool cols = checkCol(j,k);
+					bool rows = checkRow(j,k);
+					if ((cols == false) or (rows == false))
+					{
+						return false;
+					}
+				}
+			}
+			return true;
 		}
 };
 
@@ -120,7 +137,7 @@ int main()
 		int choice = menu();
 		cout << endl;
 		
-		if (choice == 7)
+		if (choice == 8)
 		{
 			cout << "Good-Bye" << endl;
 			newGame.saveGame();
@@ -133,8 +150,10 @@ int main()
 		}
 		else if (choice == 2)
 		{
-			cout << endl << "Load Game" << endl << endl;
-			newGame.loadGame();
+			//string oldGame = "";
+			cout << endl << "Load Game" << endl << "Enter the name of the game you wish to load:" << endl;
+			//cin >> oldGame;
+			newGame.loadGame(); // was newGame.loadGame(oldGame);
 		}
 		else if (choice == 3)
 		{
@@ -143,7 +162,7 @@ int main()
 		}
 		else if (choice == 4)
 		{
-			cout << endl << "Check Game" << endl << endl;
+			cout << endl << "Check Location" << endl << endl;
 			bool isTrueRow = false, isTrueCol = false;
 			int locX = -1, locY = -1;
 
@@ -181,9 +200,21 @@ int main()
 		}
 		else if (choice == 5)
 		{
-			cout << endl << "Generate Game" << endl << endl;
+			bool goodGame = newGame.checkGame();
+			if (goodGame == true)
+			{
+				cout << "This game is complete." << endl;
+			}
+			else
+			{
+				cout << "This game is incomplete." << endl;
+			}
 		}
 		else if (choice == 6)
+		{
+			cout << endl << "Generate Game" << endl << endl;
+		}
+		else if (choice == 7)
 		{
 			cout << endl << "Solve Game" << endl << endl;
 		}
@@ -201,15 +232,16 @@ int menu()
 		cout << "#1. New Game" << endl;
 		cout << "2. Load Game" << endl;
 		cout << "3. Print Game" << endl;
-		cout << "4. Check Game" << endl;
-		cout << "#5 Generate Game" << endl;
-		cout << "#6 Solve Game" << endl;
-		cout << "7. Exit" << endl;
+		cout << "4. Check Location" << endl;
+		cout << "5. Check Game" << endl;
+		cout << "#6 Generate Game" << endl;
+		cout << "#7 Solve Game" << endl;
+		cout << "8. Exit" << endl;
 		cout << "Enter choice" << endl;
 		cout << "(# denotes unfinished options)" << endl;
 		cin >> userChoice;
 
-		if ((userChoice <= 7) and (userChoice >= 1))
+		if ((userChoice <= 8) and (userChoice >= 1))
 		{
 			return userChoice;
 		}
