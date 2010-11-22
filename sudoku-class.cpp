@@ -39,11 +39,22 @@ class sudokuGame
 			return game[x][y];
 		}
 
+		void newGame(int diff) // right now just builds a 9 x 9 array of zeros
+		{
+			for (int a = 0; a < 9; a++)
+			{
+				for (int b = 0; b < 9; b++)
+				{
+					game[a][b] = diff;
+				}
+			}
+		}
+
 		void loadGame() //was void loadGame(string gameToLoad)
 		{
 			int A = 0, B = 0, C = 0, D = 0, E = 0, F = 0, G = 0, H = 0, I = 0;			
 			ifstream openingFile;
-			openingFile.open("sudokuTRUE.txt"); // openingFile.open(gameToLoad);
+			openingFile.open("sudokuFALSE.txt"); // openingFile.open(gameToLoad);
 			for (int line = 0; line < 9; line++)
 			{
 				openingFile >> A >> B >> C >> D >> E >> F >> G >> H >> I;
@@ -76,9 +87,152 @@ class sudokuGame
 			savingFile.close();
 		}
 
-		int numToCheck(int n) // checking the viability for a number in an area.
+		bool checkSection(int m, int n) // Given a location we check a specific section
 		{
-			return 0;
+			//Sections
+			//1 2 3
+			//4 5 6
+			//7 8 9
+			// It feels like this could be condensed.
+			// Any thoughts?
+			int number = game[m][n];
+
+			if ((m >= 0) and (m <= 2) and (n >= 0) and (n <= 2)) // Section 1
+			{
+				for (int a = 0; a < 3; a++)
+				{
+					for (int b = 0; b < 3; b++)
+					{
+						int checkNum = game[a][b];
+						if ((checkNum == number) and (a != m) and (b != n))
+						{
+							return false;
+						}
+					}
+				}
+			}
+
+			else if((m >= 0) and (m <= 2) and (n >= 3) and (n <= 5)) // Section 2
+			{
+				for (int a = 0; a < 3; a++)
+				{
+					for (int b = 3; b < 6; b++)
+					{
+						int checkNum = game[a][b];
+						if ((checkNum == number) and (a != m) and (b != n))
+						{
+							return false;
+						}
+					}
+				}
+			}
+
+			else if((m >= 0) and (m <= 2) and (n >= 6) and (n <= 8)) // Section 3
+			{
+				for (int a = 0; a < 3; a++)
+				{
+					for (int b = 6; b < 9; b++)
+					{
+						int checkNum = game[a][b];
+						if ((checkNum == number) and (a != m) and (b != n))
+						{
+							return false;
+						}
+					}
+				}
+			}
+
+			else if((m >= 3) and (m <= 5) and (n >= 0) and (n <= 2)) // Section 4
+			{
+				for (int a = 3; a < 6; a++)
+				{
+					for (int b = 0; b < 3; b++)
+					{
+						int checkNum = game[a][b];
+						if ((checkNum == number) and (a != m) and (b != n))
+						{
+							return false;
+						}
+					}
+				}
+			}
+
+			else if((m >= 3) and (m <= 5) and (n >= 3) and (n <= 5)) // Section 5
+			{
+				for (int a = 3; a < 6; a++)
+				{
+					for (int b = 3; b < 6; b++)
+					{
+						int checkNum = game[a][b];
+						if ((checkNum == number) and (a != m) and (b != n))
+						{
+							return false;
+						}
+					}
+				}
+			}
+
+			else if((m >= 3) and (m <= 5) and (n >= 6) and (n <= 8)) // Section 6
+			{
+				for (int a = 3; a < 6; a++)
+				{
+					for (int b = 6; b < 9; b++)
+					{
+						int checkNum = game[a][b];
+						if ((checkNum == number) and (a != m) and (b != n))
+						{
+							return false;
+						}
+					}
+				}
+			}
+
+			else if((m >= 6) and (m <= 8) and (n >= 0) and (n <= 2)) // Section 7
+			{
+				for (int a = 6; a < 9; a++)
+				{
+					for (int b = 0; b < 3; b++)
+					{
+						int checkNum = game[a][b];
+						if ((checkNum == number) and (a != m) and (b != n))
+						{
+							return false;
+						}
+					}
+				}
+			}
+
+			else if((m >= 6) and (m <= 8) and (n >= 3) and (n <= 5)) // Section 8
+			{
+				for (int a = 6; a < 9; a++)
+				{
+					for (int b = 3; b < 6; b++)
+					{
+						int checkNum = game[a][b];
+						if ((checkNum == number) and (a != m) and (b != n))
+						{
+							return false;
+						}
+					}
+				}
+			}
+
+			else if((m >= 6) and (m <= 8) and (n >= 6) and (n <= 8)) // Section 9
+			{
+				for (int a = 6; a < 9; a++)
+				{
+					for (int b = 6; b < 9; b++)
+					{
+						int checkNum = game[a][b];
+						if ((checkNum == number) and (a != m) and (b != n))
+						{
+							return false;
+						}
+					}
+				}
+			}
+
+			return true;
 		}
 
 		bool checkRow(int x, int y)
@@ -117,7 +271,8 @@ class sudokuGame
 				{
 					bool cols = checkCol(j,k);
 					bool rows = checkRow(j,k);
-					if ((cols == false) or (rows == false))
+					bool secs = checkSection(j,k);
+					if ((cols == false) or (rows == false) or (secs == false))
 					{
 						return false;
 					}
@@ -133,6 +288,8 @@ class sudokuGame
 
 		bool isValid(int a, int b) // check the recently entered number to see if it is valid.
 		{
+			bool col = false, row = false, sec = false;
+			
 			return false;
 		}
 };
@@ -158,6 +315,13 @@ int main()
 		else if (choice == 1)
 		{
 			cout << endl << "New Game" << endl;
+			int difficulty = 0;
+			cout << "Enter the Difficulty you want:" << endl;
+			cout << "1. Easy" << endl;
+			cout << "2. Medium" << endl;
+			cout << "3. Hard" << endl;
+			cin >> difficulty;
+			newGame.newGame(difficulty);
 		}
 		else if (choice == 2)
 		{
@@ -174,7 +338,7 @@ int main()
 		else if (choice == 4)
 		{
 			cout << endl << "Check Location" << endl;
-			bool isTrueRow = false, isTrueCol = false;
+			bool isTrueRow = false, isTrueCol = false, isTrueSec = false;
 			int locX = -1, locY = -1;
 
 			cout << "Enter the location of the digit you wish to check:" << endl;
@@ -185,13 +349,19 @@ int main()
 			{
 				isTrueRow = newGame.checkRow(locX,locY);
 				isTrueCol = newGame.checkCol(locX,locY);
+				isTrueSec = newGame.checkSection(locX,locY);
 			}
 			else
 			{
 				cout << "You entered incorrect location." << endl;
 			}
 
-			if ((isTrueRow == true) and (isTrueCol == true))
+			if (isTrueSec == false)
+			{
+				cout << newGame.printLoc(locX,locY) << " is not valid it's section." << endl;
+			}
+
+			if ((isTrueRow == true) and (isTrueCol == true) and (isTrueSec == true))
 			{
 				cout << newGame.printLoc(locX,locY) << " at this location is legitimate" << endl;
 			}
