@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <time.h>
 #include "sudoku-class.h"
 
 using namespace std;
@@ -63,7 +64,7 @@ int main()
 			while(runWhile)
 			{
 				char debugChoice;
-				cout << "Debug Menu\nN. New Game\nL. Load Game\nS. Save Game\nP. Print Game\nK. Check Full Game\nR. Check Row\nC. Check Column\nZ. Check Section\nE. Edit Location\nU. Check Possiblities\nX. Exit\nTest> ";
+				cout << "Debug Menu > N. New Game > L. Load Game > S. Save Game > P. Print Game > K. Check Full Game > R. Check Row > C. Check Column > Z. Check Section > E. Edit Location > U. Check Possiblities > X. Exit\nTest> ";
 				cin >> debugChoice;
 				switch (debugChoice)
 				{
